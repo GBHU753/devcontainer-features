@@ -26,7 +26,7 @@ jobs:
         run: devcontainer features test --skip-scenarios -f ${{ matrix.features }} -i ${{ matrix.baseImage }} .
 
   test-scenarios:
-    runs-on: mcr.microsoft.com/devcontainers/base:ubuntu
+    runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
       matrix:
