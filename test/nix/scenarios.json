@@ -1,0 +1,12 @@
+{
+    "nix": {
+        "image": "ubuntu:latest",
+        "features": {
+            "nix": {
+                "version": "",
+                "flakeUri": "",
+                "extraConfig": ""
+            }
+        }
+    }
+}
