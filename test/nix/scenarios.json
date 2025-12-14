@@ -8,5 +8,15 @@
                 "extraConfig": ""
             }
         }
+    },
+    "flake": {
+        "image": "ubuntu:latest",
+        "features": {
+            "nix": {
+                "version": "",
+                "flakeUri": "github:GBHU753/test-flake#root",
+                "extraConfig": ""
+            }
+        }
     }
 }
