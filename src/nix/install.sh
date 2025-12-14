@@ -6,8 +6,8 @@ echo "Activating feature 'Nix package manager via Determinate Systems Installer'
 # Build install args from environment variables
 INSTALL_ARGS="--no-confirm --init none"
 
-if [ -n "$EXTRA_CONFIG" ]; then
-    INSTALL_ARGS="$INSTALL_ARGS --extra-conf $EXTRA_CONFIG"
+if [ -n "$EXTRACONFIG" ]; then
+    INSTALL_ARGS="$INSTALL_ARGS --extra-conf $EXTRACONFIG"
 fi
 
 # Install Nix via Determinate Systems installer
@@ -22,8 +22,8 @@ else
 fi
 
 # Install nix flake if specified
-if [ -n "$FLAKE_URI" ]; then
-    echo "Installing Nix flake from URI: $FLAKE_URI"
+if [ -n "$FLAKEURI" ]; then
+    echo "Installing Nix flake from URI: $FLAKEURI"
     . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-    nix profile install "$FLAKE_URI"
+    nix profile install "$FLAKEURI"
 fi  
