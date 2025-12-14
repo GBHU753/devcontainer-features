@@ -1,0 +1,37 @@
+{
+    "id": "nix",
+    "version": "1.0.0",
+    "name": "Nix Package Manager via Determinate Systems Installer",
+    "documentationURL": "https://github.com/GBHU753/devcontainer-features",
+    "description": "Installs the Nix package manager and optionally a flake",
+    "options": {
+        "version": {
+            "type": "string",
+            "proposals": [
+                "v0.6.0"
+            ],
+            "default": "",
+            "description": "You can pin to a specific version of Determinate Nix Installer. if you pin the installer version, you'll also indirectly pin to the associated nix version."
+        },
+        "flakeUri": {
+            "type": "string",
+            "default": "",
+            "description": "Optional URI to a Nix Flake to install in profile."
+        },
+        "extraConfig": {
+            "type": "string",
+            "default": "",
+            "description": "Extra Nix configuration to be written directly to nix.conf file."
+        }
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ],
+    "mounts": [
+        {
+            "source": "/nix/store",
+            "target": "/nix/store",
+            "type": "volume"
+        }
+    ]
+}
