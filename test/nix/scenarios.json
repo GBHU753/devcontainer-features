@@ -1,6 +1,6 @@
 {
     "nix": {
-        "image": "ubuntu:latest",
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
         "features": {
             "nix": {
                 "version": "",
@@ -10,7 +10,7 @@
         }
     },
     "flake": {
-        "image": "ubuntu:latest",
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
         "features": {
             "nix": {
                 "version": "",
