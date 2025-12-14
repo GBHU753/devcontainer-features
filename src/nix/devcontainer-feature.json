@@ -29,7 +29,7 @@
     ],
     "mounts": [
         {
-            "source": "/nix/store",
+            "source": "devcontainer-nix-store",
             "target": "/nix/store",
             "type": "volume"
         }
