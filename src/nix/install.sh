@@ -17,6 +17,6 @@ if [ -n "$VERSION" ]; then
     sh -s -- install $INSTALL_ARGS
 else 
     echo "Using latest Determinate Systems Nix version"
-    curl -fsSL https://install.determinate.systems/nix | \ 
+    curl -fsSL https://install.determinate.systems/nix | \
     sh -s -- install $INSTALL_ARGS
 fi
