@@ -11,12 +11,15 @@ if [ -n "$EXTRA_CONFIG" ]; then
 fi
 
 # Install Nix via Determinate Systems installer
+# ... existing code ...
+
+# Install Nix via Determinate Systems installer
 if [ -n "$VERSION" ]; then
     echo "Using Determinate Systems Nix version: $VERSION"
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix/tag/$VERSION | \
-    sh -s -- install $INSTALL_ARGS
+    sh -s -- install linux $INSTALL_ARGS
 else 
     echo "Using latest Determinate Systems Nix version"
     curl -fsSL https://install.determinate.systems/nix | \
-    sh -s -- install $INSTALL_ARGS
+    sh -s -- install linux $INSTALL_ARGS
 fi
