@@ -25,5 +25,5 @@ fi
 if [ -n "$FLAKEURI" ]; then
     echo "Installing Nix flake from URI: $FLAKEURI"
     . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-    nix profile install "$FLAKEURI"
+    nix profile add --no-write-lock-file "$FLAKEURI" 
 fi  
