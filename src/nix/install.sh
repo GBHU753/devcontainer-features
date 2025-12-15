@@ -32,16 +32,6 @@ if [ -n "$FLAKEURI" ]; then
     USER="${USER:-$(basename "$HOME")}"
     export USER
     echo "Using USER: $USER"
-    
-    # # Install home manager using nix shell
-    # nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    # nix-channel --update
-
-    # nix-shell '<home-manager>' -A install
-    
-    # Run home-manager switch with the flake URI
-    # FLAKEURI should be in format: github:user/repo#configName or path#configName
-    # home-manager switch --flake "$FLAKEURI" --no-write-lock-file -b backup
 
     nix run home-manager/master -- switch --flake github:GBHU753/test-flake#root@devcontainer --no-write-lock-file -b backup
 fi
