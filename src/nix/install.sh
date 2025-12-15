@@ -34,7 +34,7 @@ if [ -n "$FLAKEURI" ]; then
     echo "Using USER: $USER"
     
     # Install home-manager if not already available
-    #nix profile add nixpkgs#home-manager --no-write-lock-file
+    nix profile add nixpkgs#home-manager --no-write-lock-file
     
     # Run home-manager switch with the flake URI
     # FLAKEURI should be in format: github:user/repo#configName or path#configName
