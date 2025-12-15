@@ -1,0 +1,22 @@
+{
+    "nix": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "nix": {
+                "version": "",
+                "flakeUri": "",
+                "extraConfig": ""
+            }
+        }
+    },
+    "flake": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "nix": {
+                "version": "",
+                "flakeUri": "github:GBHU753/test-flake#root@devcontainer",
+                "extraConfig": ""
+            }
+        }
+    }
+}

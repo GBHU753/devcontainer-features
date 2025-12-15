@@ -13,11 +13,8 @@ jobs:
     strategy:
       matrix:
         features:
-          - color
-          - hello
+          - nix
         baseImage:
-          - debian:latest
-          - ubuntu:latest
           - mcr.microsoft.com/devcontainers/base:ubuntu
     steps:
       - uses: actions/checkout@v4
@@ -34,8 +31,7 @@ jobs:
     strategy:
       matrix:
         features:
-          - color
-          - hello
+          - nix
     steps:
       - uses: actions/checkout@v4
 

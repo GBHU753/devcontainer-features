@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# This test file will be executed against one of the scenarios devcontainer.json test that
-# includes the 'color' feature with "greeting": "hello" option.
+# This test file will be executed against the 'nix' scenario
+# which installs Nix without a specific flake
 
 set -e
 
@@ -10,8 +10,12 @@ source dev-container-features-test-lib
 
 # Feature-specific tests
 # The 'check' command comes from the dev-container-features-test-lib.
-check "execute command" bash -c "hello | grep 'hello, $(whoami)!'"
+check "nix is installed" zsh -c "command -v nix"
 
-# Report results
+check "nix version" zsh -c "nix --version"
+
+check "nix.conf exists" zsh -c "test -f /etc/nix/nix.conf"
+
+# Report result
 # If any of the checks above exited with a non-zero exit code, the test will fail.
 reportResults
