@@ -21,9 +21,17 @@ else
     sh -s -- install linux $INSTALL_ARGS
 fi
 
-# Install nix flake if specified
+# Source nix environment
+. "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+
+# Install flake using home-manager switch if specified
 if [ -n "$FLAKEURI" ]; then
-    echo "Installing Nix flake from URI: $FLAKEURI"
-    . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-    nix profile add --no-write-lock-file "$FLAKEURI" 
-fi  
+    echo "Installing Home Manager configuration from URI: $FLAKEURI"
+    
+    # Install home-manager if not already available
+    nix profile install nixpkgs#home-manager --no-write-lock-file
+    
+    # Run home-manager switch with the flake URI
+    # FLAKEURI should be in format: github:user/repo#configName or path#configName
+    home-manager switch --flake "$FLAKEURI" --no-write-lock-file -b backup
+fi

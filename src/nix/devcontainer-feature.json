@@ -16,7 +16,7 @@
         "flakeUri": {
             "type": "string",
             "default": "",
-            "description": "Optional URI to a Nix Flake to install in profile."
+            "description": "Optional URI to a Nix Flake to install in using 'home-manager switch' after Nix is installed."
         },
         "extraConfig": {
             "type": "string",

@@ -14,7 +14,7 @@
         "features": {
             "nix": {
                 "version": "",
-                "flakeUri": "github:GBHU753/test-flake#root",
+                "flakeUri": "github:GBHU753/test-flake#root@devcontainer",
                 "extraConfig": ""
             }
         }
