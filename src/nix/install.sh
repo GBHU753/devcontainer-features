@@ -39,5 +39,10 @@ if [ -n "$FLAKEURI" ]; then
     export USER
     echo "Using USER: $USER"
 
-    nix run home-manager/master -- switch --flake github:GBHU753/test-flake#root@devcontainer --no-write-lock-file -b backup
+    if nix run home-manager/master -- switch --flake "$FLAKEURI" --no-write-lock-file -b backup; then
+        echo "Home Manager switch completed successfully"
+    else
+        echo "ERROR: Home Manager switch failed with exit code: $?"
+        exit 1
+    fi
 fi
