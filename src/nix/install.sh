@@ -54,5 +54,5 @@ if [ -n "$FLAKEURI" ]; then
     echo "Installing Home Manager configuration from URI: $FLAKEURI"
     echo "Using home directory: $USER_HOME"
 
-    nix run home-manager/master -- switch --flake github:GBHU753/test-flake#root@devcontainer --no-write-lock-file -b backup
+    nix run home-manager/master -- switch --flake $FLAKEURI --no-write-lock-file -b backup
 fi

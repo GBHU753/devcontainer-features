@@ -1,6 +1,6 @@
 {
     "id": "nix",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "name": "Nix Package Manager via Determinate Systems Installer",
     "documentationURL": "https://github.com/GBHU753/devcontainer-features",
     "description": "Installs the Nix package manager and optionally a flake",
