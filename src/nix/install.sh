@@ -3,22 +3,28 @@ set -e
 
 echo "Activating feature 'Nix package manager via Determinate Systems Installer'"
 
-# Build install args from environment variables
-INSTALL_ARGS="--no-confirm --init none"
-
+# Build extra-conf with sandbox = false and any additional config
+EXTRA_CONF="sandbox = false"
 if [ -n "$EXTRACONFIG" ]; then
-    INSTALL_ARGS="$INSTALL_ARGS --extra-conf $EXTRACONFIG"
+    EXTRA_CONF="$EXTRA_CONF
+$EXTRACONFIG"
 fi
 
 # Install Nix via Determinate Systems installer
 if [ -n "$VERSION" ]; then
     echo "Using Determinate Systems Nix version: $VERSION"
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix/tag/$VERSION | \
-    sh -s -- install linux $INSTALL_ARGS
+    sh -s -- install linux \
+      --extra-conf "$EXTRA_CONF" \
+      --init none \
+      --no-confirm
 else 
     echo "Using latest Determinate Systems Nix version"
     curl -fsSL https://install.determinate.systems/nix | \
-    sh -s -- install linux $INSTALL_ARGS
+    sh -s -- install linux \
+      --extra-conf "$EXTRA_CONF" \
+      --init none \
+      --no-confirm
 fi
 
 # Source nix environment
