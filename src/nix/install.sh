@@ -1,48 +1,63 @@
 #!/bin/sh
 set -e
 
-echo "Activating feature 'Nix package manager via Determinate Systems Installer'"
+echo "Activating feature 'Nix package manager'"
 
-# Build extra-conf with sandbox = false and any additional config
+# --- 1. Install Nix (Same as before) ---
 EXTRA_CONF="sandbox = false"
 if [ -n "$EXTRACONFIG" ]; then
     EXTRA_CONF="$EXTRA_CONF
 $EXTRACONFIG"
 fi
 
-# Install Nix via Determinate Systems installer
+# Determine Version and Install
 if [ -n "$VERSION" ]; then
-    echo "Using Determinate Systems Nix version: $VERSION"
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix/tag/$VERSION | \
-    sh -s -- install linux \
-      --extra-conf "$EXTRA_CONF" \
-      --init none \
-      --no-confirm
+    sh -s -- install linux --extra-conf "$EXTRA_CONF" --init none --no-confirm
 else 
-    echo "Using latest Determinate Systems Nix version"
     curl -fsSL https://install.determinate.systems/nix | \
-    sh -s -- install linux \
-      --extra-conf "$EXTRA_CONF" \
-      --init none \
-      --no-confirm
+    sh -s -- install linux --extra-conf "$EXTRA_CONF" --init none --no-confirm
 fi
 
-# Source nix environment
-. "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+# --- 2. Create the Runtime Entrypoint Script ---
+# We write the script to /usr/local/bin so it can be called by the feature entrypoint
+cat > /usr/local/bin/nix-entrypoint.sh << 'EOF'
+#!/bin/sh
+set -e
 
-# Install flake using home-manager switch if specified
-if [ -n "$FLAKEURI" ]; then
-    echo "Installing Home Manager configuration from URI: $FLAKEURI"
-
-    # Set USER from HOME if not already set
-    USER="${USER:-$(basename "$HOME")}"
-    export USER
-    echo "Using USER: $USER"
-
-    if nix run home-manager/master -- switch --flake "$FLAKEURI" --no-write-lock-file -b backup; then
-        echo "Home Manager switch completed successfully"
-    else
-        echo "ERROR: Home Manager switch failed with exit code: $?"
-        exit 1
-    fi
+# Source Nix
+if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
+  . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
 fi
+
+# Define the Flake URI captured from build args
+EOF
+
+# Append the FLAKEURI variable into the script safely
+echo "TARGET_FLAKE_URI=\"$FLAKEURI\"" >> /usr/local/bin/nix-entrypoint.sh
+
+# Append the rest of the logic
+cat >> /usr/local/bin/nix-entrypoint.sh << 'EOF'
+
+if [ -n "$TARGET_FLAKE_URI" ]; then
+    # Only run if we haven't successfully switched to this specific commit/flake before
+    # Or just run it every time (idempotent):
+    echo "Ensuring Home Manager configuration is applied..."
+    
+    # We need to set USER for home-manager
+    export USER="${USER:-$(basename "$HOME")}"
+    
+    # Run Home Manager
+    # We use '|| true' so container start doesn't fail if internet is down, 
+    # but strictly speaking you might want it to fail.
+    nix run home-manager/master -- switch --flake "$TARGET_FLAKE_URI" --no-write-lock-file -b backup || echo "Home Manager switch failed, continuing anyway..."
+fi
+
+# Execute the command passed to the container (usually /bin/sh or sleep infinity)
+exec "$@"
+EOF
+
+# Make it executable
+chmod +x /usr/local/bin/nix-entrypoint.sh
+
+echo "Nix feature installed. Home Manager will apply at container start."

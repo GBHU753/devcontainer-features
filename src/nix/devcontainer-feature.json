@@ -36,5 +36,6 @@
     ],
     "containerEnv": {
         "PATH": "${PATH}:/nix/var/nix/profiles/default/bin"
-    }
+    },
+    "entrypoint": "/usr/local/bin/nix-entrypoint.sh"
 }
