@@ -30,14 +30,29 @@ fi
 # Source nix environment
 . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
 
+# Determine the user for the dev container
+# Priority: _REMOTE_USER (configured remoteUser) > _CONTAINER_USER > HOME basename > root
+if [ -n "$_REMOTE_USER" ]; then
+    USER="$_REMOTE_USER"
+    USER_HOME="${_REMOTE_USER_HOME:-$HOME}"
+    echo "Using _REMOTE_USER: $USER"
+elif [ -n "$_CONTAINER_USER" ]; then
+    USER="$_CONTAINER_USER"
+    USER_HOME="${_CONTAINER_USER_HOME:-$HOME}"
+    echo "Using _CONTAINER_USER: $USER"
+else
+    USER="${USER:-$(basename "$HOME")}"
+    USER_HOME="$HOME"
+    echo "Using USER from environment: $USER"
+fi
+
+export USER
+export USER_HOME
+
 # Install flake using home-manager switch if specified
 if [ -n "$FLAKEURI" ]; then
     echo "Installing Home Manager configuration from URI: $FLAKEURI"
-
-    # Set USER from HOME if not already set
-    USER="${USER:-$(basename "$HOME")}"
-    export USER
-    echo "Using USER: $USER"
+    echo "Using home directory: $USER_HOME"
 
     nix run home-manager/master -- switch --flake github:GBHU753/test-flake#root@devcontainer --no-write-lock-file -b backup
 fi

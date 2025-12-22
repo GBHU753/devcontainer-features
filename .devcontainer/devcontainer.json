@@ -20,10 +20,10 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/georgofenbeck/features/lazygit-linuxbinary:1":{},
-        "ghcr.io/gbhu753/devcontainer-features/nix:latest": {
+        "ghcr.io/gbhu753/devcontainer-features/nix:1.0.5": {
             "flakeUri": "github:GBHU753/test-flake#root@devcontainer"
         }
     },
-    "remoteUser": "node",
+    "remoteUser": "root",
     "updateContentCommand": "npm install -g @devcontainers/cli"
 }
