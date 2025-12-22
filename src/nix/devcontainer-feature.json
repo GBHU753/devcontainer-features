@@ -1,6 +1,6 @@
 {
     "id": "nix",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "Nix Package Manager via Determinate Systems Installer",
     "documentationURL": "https://github.com/GBHU753/devcontainer-features",
     "description": "Installs the Nix package manager and optionally a flake",
@@ -27,13 +27,13 @@
     "installsAfter": [
        
     ],
-    "mounts": [
-        {
-            "source": "devcontainer-nix-store",
-            "target": "/nix/store",
-            "type": "volume"
-        }
-    ],
+    // "mounts": [
+    //     {
+    //         "source": "devcontainer-nix-store",
+    //         "target": "/nix/store",
+    //         "type": "volume"
+    //     }
+    // ],
     "containerEnv": {
         "PATH": "${PATH}:/nix/var/nix/profiles/default/bin"
     }
